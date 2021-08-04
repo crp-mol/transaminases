@@ -10,7 +10,8 @@ This is a computational protocol to predict the enantioselectivity (ee%) of ω-t
 
 ## STEP 1: Generate the rotamer library
 ![rotamer library](imgs/rotamer_library.png)
-First, we need to generate rotamer libraries for the external aldimine intermediate form of the query compound (ligand). You need the PDB structure of the query amine (R- or S-amine).
+First, we need to generate rotamer libraries for the external aldimine intermediate form of the query compound (ligand). You need the PDB structure of the query amine (R- or S-amine). Example amines have been provided in `rotamers/input_amines/*.pdb`
+
 To do so, execute the following YASARA macro:
 ```bash
 $PATH_YASARA/yasara -txt generate_rotamers.mcr
