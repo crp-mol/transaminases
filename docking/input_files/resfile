@@ -1,0 +1,11 @@
+# Specify extra rotamers at chi 1 and chi 2
+# EX 1 EX 2
+AUTO
+start
+
+## here put wanted mutations
+## EXAMPLE (uncomment if you want the double mutant "W57G_F88T"):
+# 57 A PIKAA G ## Mutate residue 57 from subunit A to Glycine
+# 88 B PIKAA T ## Mutate residue 88 from subunit B to Threonine
+# 118 A NATRO  ## Keep this residue as NaturalRotamer (don't move it)
+# 150 A NATRO  ## Keep this residue as NaturalRotamer (don't move it)

@@ -1,0 +1,9 @@
+# Step 1: Put the ligand (01S, 02S, 03S.... etc) into the binding site of Vf-TA. You can do it manually or by running the following YASARA macro:
+yasara -txt alignLigand.mcr
+
+# Step 2: Rosetta docking
+# This command will do docking of the external aldimine intermediate into the binding site of the enzyme
+/home/carlos/soft/rosetta_bin_linux_2015.25.57927_bundle/main/source/bin/enzyme_design.static.linuxgccrelease @flags -resfile resfile -database /home/carlos/soft/rosetta_bin_linux_2015.25.57927_bundle/main/database/ -enzdes::cstfile enzdes.cst -nstruct 10 -s 4e3q_forRosetta.pdb > log
+
+# Step 3: Select the best docked structures (decoys) for MD simulations
+# The best decoys are selected based on the Rosetta Interface Energy, which can be found in the enz_score.out file
