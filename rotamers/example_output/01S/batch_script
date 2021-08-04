@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH --time=23:59:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8gb
+#SBATCH --job-name=QM-01S
+#SBATCH --partition=nodes
+
+
+module load    Gaussian/09-D.01-GaussView-5.0.9
+srun g09 01S.com 01S.out
