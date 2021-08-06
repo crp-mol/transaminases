@@ -61,7 +61,7 @@ $ROSETTA_PATH/main/source/bin/enzyme_design.static.linuxgccrelease @flags -resfi
 | output   | `4e3q_forRosetta__DE_*.pdb`     | ENZ:LIG (decoys)            |
 | output   | `enz_score.out`                 | Goodness of each decoy      |
 
-After having run the previous command, Rosetta should have generated 10 decoys (`4e3q_forRosetta__DE_1.pdb`, `4e3q_forRosetta__DE_2.pdb`, ...), and a file called `enz_score.out` that contains a list of Rosetta measurements about the decoys. The most useful measurement is `SR_2_interf_E_1_3` (the Rosetta Interface Energy between the ligand and the enzyme). 
+After having run the previous command, Rosetta should have generated 10 decoys (`4e3q_forRosetta__DE_1.pdb`, `4e3q_forRosetta__DE_2.pdb`, ...), and a file called [enz_score.out](docking/example_out/enz_score.out) that contains a list of Rosetta measurements about the decoys. The most useful measurement is `SR_2_interf_E_1_3` (the Rosetta Interface Energy between the ligand and the enzyme). 
 
 You can visualize the output decoys in YASARA by issuing the following command:
 ```bash
@@ -73,7 +73,7 @@ Since the initial placement of the ligand corresponded roughly to the location o
 
 :ledger: **Notes**
 *	Visual inspection of the genenrated decoys is recommended previous to the MD simulations.
-*	If the transaminase does not have a crystallized PMP cofactor, then the `alignLigand.mcr` YASARA macro cannot be used to generate `4e3q_forRosetta.pdb`.
+*	If the transaminase does not have a crystallized PMP cofactor, then the [alignLigand.mcr](docking/input_files/alignLigand.mcr) YASARA macro cannot be used to generate `4e3q_forRosetta.pdb`.
 *	But, you can align the crystal structure of your transaminase to the crystal structure of a similar transaminase that does contain PMP, and delete the structure of the second transaminase but leave the PMP cofactor. This way, you'll have your original transaminase with PMP (again this step is for the initial placement of the ligand, and can be done in many ways. It's up to the user to decide what's more appropiate for their own specific case). 
 *	Beware that some ω-transaminases have distinct conformations when bound/unbound to the cofactor ([Sirin et al., 2014](dx.doi.org/10.1021/ci5002185)).
 *	If you want to introduce mutations at the same time, it can easily be done through the file called `resfile`. For example:
