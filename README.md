@@ -29,10 +29,10 @@ The `generate_rotamers.mcr` script takes the amine form of the query compound as
 :ledger: **Notes**
 *	The user-defined parameters in the `generate_rotamers.mcr` macro are `Prune` (the RMSD cutoff for considering two rotamers as unique), `maxNumberRotamers` (the number of rotamers generated before prunning), and `DihedralAngleCH` (user-defined dihedral angle chi_1)
 *	A chi_1 angle of -90 degrees places the hydrogen-to-be-abstracted (`H99`) pointing directly toward the catalytic lysine.
-*	The `generate_rotamers.mcr` script can also be run in visual mode, allowing the user to see each step taking place. Running the YASARA macro in visual mode can be useful for visual inspection, but for large runs the text-only mode is recommended.
-*	To run the YASARA macro in visual mode simply delete the `-txt` flag: `$PATH_YASARA/yasara generate_rotamers.mcr`	
 *	If you want to use [RESP charges](https://www.sciencedirect.com/science/article/abs/pii/S0166128000004875?via%3Dihub) (for MD), the file `*.com` can be used as input for [Gaussian09](https://gaussian.com/glossary/g09/). There is a `batch_script` file with the necessary commands for running Gaussian09 in [computer clusters](https://slurm.schedmd.com/sbatch.html)
 *	The input files can be obtained by drawing the desired amine in [ChemSketch](https://www.acdlabs.com/resources/freeware/chemsketch/index.php) and then doing energy-minimization in [Avogadro](https://avogadro.cc/), or by getting crystal structures directly from the [PDB](https://www.rcsb.org/pages/search_features#search_ligands), or by other means.
+*	The `generate_rotamers.mcr` script can also be run in visual mode, allowing the user to see each step taking place. Running the YASARA macro in visual mode can be useful for visual inspection, but for large runs the text-only mode is recommended.
+*	To run the YASARA macro in visual mode simply delete the `-txt` flag: `$PATH_YASARA/yasara generate_rotamers.mcr`	
 
 **Screenshots of the **`generate_rotamers.mcr`** YASARA macro in visual mode**
 ![screenshots generate rotamers](imgs/screenshots.png)
