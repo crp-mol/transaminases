@@ -99,7 +99,7 @@ We can perform MD simulations on the docked structures to count the number of re
 $PATH_YASARA/yasara -txt MDSimulation.mcr "MacroTarget ='example_input/4e3q_forRosetta__DE_1_B__DE_1_WOW'" "CurrentSetting ='MultiShort'"
 ```
 
-The YASARA macro should take care of everything. It will do 5 replicas of 20 ps each, and will count NACs on-the-fly.
+The YASARA macro will take care of performing the MD simulations and analysis. It will do 5 replicas of 20 ps each, and will count NACs on-the-fly.
 
 :ledger: **Notes**
 
