@@ -1,7 +1,7 @@
-## Predict the *ee*% of the asymmetric synthesis of amines from ketones catalyzed by *Vf*-TA
+# Predict the *ee*% of the asymmetric synthesis of amines from ketones catalyzed by *Vf*-TA
 This is a computational protocol to predict the enantioselectivity (*ee*%) of ω-transaminases using a combination of molecular docking and molecular dynamics simulations. The protocol has been tested in the ω-transaminase from *Vibrio fluvialis* (*Vf*-TA).
 
-### Requirements
+## Requirements
 *	[YASARA](http://yasara.org/)
 *	[Rosetta suite](https://www.rosettacommons.org/)
 *	[Gaussian09](https://gaussian.com/glossary/g09/) (optional)
@@ -37,7 +37,6 @@ The `generate_rotamers.mcr` script takes the amine form of the query compound as
 **Screenshots of the **`generate_rotamers.mcr`** YASARA macro in visual mode**
 ![screenshots generate rotamers](imgs/screenshots.png)
 
-
 ## STEP 2: Generate the enzyme-ligand complex (docking)
 ![Docking](imgs/docking.png)
 Using the rotamer library (`SUB_rotamers.pdb`) and the Rosetta params file (`SUB.params`) produced in the previous step, we can run the [Rosetta Enzyme Design](https://new.rosettacommons.org/docs/latest/application_documentation/design/enzyme-design) application to dock the ligand into the binding site of the enzyme.
@@ -62,15 +61,22 @@ $ROSETTA_PATH/main/source/bin/enzyme_design.static.linuxgccrelease @flags -resfi
 | output   | `4e3q_forRosetta__DE_*.pdb`     | ENZ:LIG (decoys)            |
 | output   | `enz_score.out`                 | Goodness of each decoy      |
 
-After having run the previous command, Rosetta should have generated 10 decoys (`4e3q_forRosetta__DE_1.pdb`, `4e3q_forRosetta__DE_2.pdb`, ...), and a file called `enz_score.out` that contains a list of Rosetta measurements about the decoys. The most useful measurement is `SR_2_interf_E_1_3` (the Rosetta Interface Energy between the ligand and the enzyme). Not all the decoys generated are good enough. Sometimes, the ligand ends up outside the binding site (easily seen by the poor Interface Energy) or outside a catalytic pose (e.g., the ligand moves too far away from the catalytic lysine that catalysis would be impossible). Visual inspection of the genenrated decoys is recommended previous to the MD simulations.
+After having run the previous command, Rosetta should have generated 10 decoys (`4e3q_forRosetta__DE_1.pdb`, `4e3q_forRosetta__DE_2.pdb`, ...), and a file called `enz_score.out` that contains a list of Rosetta measurements about the decoys. The most useful measurement is `SR_2_interf_E_1_3` (the Rosetta Interface Energy between the ligand and the enzyme). 
 
-Because the ligand was initially placed aligned to the PMP cofactor (`4e3q_forRosetta.pdb`), the docking algorithm will probably only select among the rotamers provided the one that best fits the binding site, and re-arrange the residues around it. The settings can be found in the `flags` file. You can modify `flags` to adjust the intensity of the search. The `resfile` flags is for mutants. And the `enzdes.cst` contains the user-defined constraints. In `enzdes.cst` we define which is the catalytic lysine, and what distances / angles / dihedrals need to be constrained. The `-nstruct` flag tells Rosetta how many decoys to generate. The `-s` flag is the input file. The `SUB_rotamers.pdb` and `SUB.params` are referenced in the `flags` file.
+You can visualize the output decoys in YASARA by issuing the following command:
+```bash
+$PATH_YASARA/yasara 4e3q_forRosetta__DE_1.pdb
+```
+
+Since the initial placement of the ligand corresponded roughly to the location of the binding site, Rosetta will probably only have to select among the ligand and protein residue rotamer libraries. [enzdes.cst](docking/input_files/enzdes.cst) contains the list of catalytic residues, and what distances / angles / dihedrals need to be constrained. The `-nstruct` flag tells Rosetta how many decoys to generate. 
+
 
 :ledger: **Notes**
+*	Visual inspection of the genenrated decoys is recommended previous to the MD simulations.
 *	If the transaminase does not have a crystallized PMP cofactor, then the `alignLigand.mcr` YASARA macro cannot be used to generate `4e3q_forRosetta.pdb`.
 *	But, you can align the crystal structure of your transaminase to the crystal structure of a similar transaminase that does contain PMP, and delete the structure of the second transaminase but leave the PMP cofactor. This way, you'll have your original transaminase with PMP (again this step is for the initial placement of the ligand, and can be done in many ways. It's up to the user to decide what's more appropiate for their own specific case). 
 *	Beware that some ω-transaminases have distinct conformations when bound/unbound to the cofactor ([Sirin et al., 2014](dx.doi.org/10.1021/ci5002185)).
-*	If you want to introduce mutations at the same time, it can easily be done by editing the file called `resfile`. For example:
+*	If you want to introduce mutations at the same time, it can easily be done through the file called `resfile`. For example:
 
 ```
 85 B PIKAA ACD
@@ -78,7 +84,7 @@ Because the ligand was initially placed aligned to the PMP cofactor (`4e3q_forRo
 118 A PIKAA NATRO
 ```
 
-Tells Rosetta to mutate (`PIKAA`) position 85 of subunit B into either Alanine, Cysteine, or Aspartate. `AND` to mutate position 151 of subunit A into either of the 20 cannonical amino acids (including the wild-type amino acid). `AND` to keep the residue 118 of subunit A in its NATural ROtamer form (`NATRO`). For more information visit: https://www.rosettacommons.org/docs/latest/application_documentation/design/enzyme-design 
+will tell Rosetta to mutate (`PIKAA`) position 85 of subunit B into either Alanine, Cysteine, or Aspartate. `AND` to mutate position 151 of subunit A into either of the 20 cannonical amino acids (including the wild-type amino acid). `AND` to keep the residue 118 of subunit A in its NATural ROtamer form (`NATRO`). For more information visit: https://www.rosettacommons.org/docs/latest/application_documentation/design/enzyme-design 
 
 ## STEP 3: Prepare the docked complex for MD simulations
 ![Prepare MD](imgs/prepare_MD.png)
@@ -94,17 +100,20 @@ The script produces a YASARA object file (YOB) containing the water molecules fr
 
 ## STEP 4: Perform the MD simulations on the docked structures 
 ![MD](imgs/MD.png)
-We can perform MD simulations on the docked structures to count the number of reactive poses and calculate the *ee*% of the enzyme toward the query compound. We just need the YOB file generated in STEP 3 as initial frame.
+Now, we need to carry out MD simulations using the docked structures as starting conformation. And from the MD trajectory, we count the number of near-attack conformations (reactive poses) to calculate the *ee*% of the enzyme toward the query compound.
+The only input needed is the YOB file generated in **STEP 3**.
+
+To run the MD simulations, issue the following command:
+
 ```bash
 $PATH_YASARA/yasara -txt MDSimulation.mcr "MacroTarget ='example_input/4e3q_forRosetta__DE_1_B__DE_1_WOW'" "CurrentSetting ='MultiShort'"
 ```
-
-The YASARA macro will take care of performing the MD simulations and analysis. It will do 5 replicas of 20 ps each, and will count NACs on-the-fly.
+The YASARA macro will take of everything (solvation, minimization, equilibration, simulation, and analysis). The example provided is for 5 replicas of 20 ps each.
 
 :ledger: **Notes**
 
 *	The MD simulation parameters can be controlled with the `CurrentSetting` flag (see `MDSimulation.mcr`). 
-*	The file listing the geometric criteria is `NACGeometricCriteria.mcr`. If a file containing the geometric criteria defining reactive poses (NACs) was provided, then the script should also have counted the NACs on-the-fly. 
+*	The file listing the geometric criteria is `NACGeometricCriteria.mcr`. If this file is provided, YASARA will calculate analyze the simulations on-the-fly and calculate the percentage of reactive poses.
 *	Example output files are provided in `MD/example_output`, for the 5x20 ps setup: 5 replicas of 20 ps each. 
 *	In the example provided, the number of NACs counted for subunit A is 3.78 (average across 5 replicas). This number can be found in the file `4e3q_forRosetta__DE_1_B__DE_1_WOW_LSOn_F_2000fs_20000fs_NAC_Results_ZZZ_Combinations_All5Seeds_Summary.tab`.
 *	NACs% can be recalculated by using the TAB files that contain the geometric criteria measurements taken across the 20 ps trajectory, e.g. `4e3q_forRosetta__DE_1_B__DE_1_WOW_F_01_A_LSOn00001.tab` is from replica 01 binding site A. The first column is the *time*, the second is whether this frame is a NAC or not (`0.0000` means `no`, `1.0000` means `yes`), the third column is the *criteria_1*, the fourth column is whether *criteria_1* passed the NAC criteria (`0.000` means `no`, `1.0000` means `yes`), the fifth colum is the *criteria_2*, the sixth column is whether *criteria_2* was passed or not, etc...
@@ -113,6 +122,6 @@ The YASARA macro will take care of performing the MD simulations and analysis. I
 Once the MD simulations have been run, you can calculate the *ee*% of the query compound by comparing the %NACs generated by the (R)- and (S)-enantiomer (`NACs_R` and `NACs_S`, respectively).
 The formula is: 
 ```math
-*ee*% = (NACs_S - NACs_R) / (NACs_S + NACs_R) * 100%
+ee% = (NACs_S - NACs_R) / (NACs_S + NACs_R) * 100%
 ```
 
