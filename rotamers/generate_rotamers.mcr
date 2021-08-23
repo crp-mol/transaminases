@@ -55,7 +55,7 @@ DihedralAngleCH() = '-90.00'
 
 # A params file is needed for Rosetta docking. The params file contains information about the ligand.
 # It can be obtained by running the molfile_to_params.py script (obtained from Rosetta)
-GenerateParamsFile = 'YES'
+GenerateParamsFile = 'NO' # 'YES'
 molfiletoparams = '~/rosetta/main/source/src/python/apps/public/molfile_to_params.py'
 
 #--------------------------------------------------------------------------------------------------------------------------------#
@@ -73,18 +73,6 @@ futureNameTmp = 0 +(futureNameTmp)
 
 # switch the console off
 CONSOLE Off
-
-if (count TableTarget) == 0
-  if MacroTarget == ''
-    RAISEERROR Found not target for the macro
-  else
-    ListMacroTargets1 = '(MacroTarget)' 
-else
-  SHOWMESSAGE Please make sure you left the first line of the table file blank and that there are no .pdb file extensions
-  WAIT ContinueButton
-  LOADTAB (TableTarget)
-  ListMacroTargets() = TAB 1
-  DELTAB 1   
 
 # self explanatory
 SHOWMESSAGE A total  of (count ListMacroTargets) pdb files will be loaded and converted to mol2 files suitable for docking and .com files for calculating RESP charges
