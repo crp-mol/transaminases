@@ -8,7 +8,7 @@
 if CT == 'AT_vibriofluvialis'          # user-defined settings name from MDSimulation.mcr 
   ActiveSiteResidues = 'Lys 285'
   StayAwayDistance = 15
-  pH = 7.0
+  pH = 8.0
   
   # S means sets
   S() = 'A'
