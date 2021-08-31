@@ -714,7 +714,7 @@ for i = 1 to count ListMacroTargets
   DELATOM ATOM H99 
   numberObj=COUNTOBJ ALL 
   SHELL rm rot_*.pdb
-  SAVEMOL2 (i), EA_library/(MacroTarget)/SUB_for_params.mol2
+  SAVEMOL2 1, EA_library/(MacroTarget)/SUB_for_params.mol2
   for i=1 to numberObj
     SAVEPDB (i), rot_(i).pdb
   SHELL cat rot_*pdb | grep -e "END" -e "HETATM" | grep -v "REMARK" | sed 's/1.00  0.00/1.00 20.00/g' | sed 's/SUB X 999/SUB X   1/g' > EA_library/(MacroTarget)/SUB_rotamers.pdb
