@@ -660,7 +660,8 @@ for i = 1 to count ListMacroTargets
       DELOBJ (j)
       PRINT deleted object (j) because its energy was (0+(EnergyTotal(j))), which is higher than the threshold of  (0.00+((MinumumEnergy) +(MaxEaboveMin)))
   TotalNumberOfObjects = COUNTOBJ all
-  DELVAR EnergyTotal # Yasara does not create new lists otherwise
+  EnergyTotal = 0 # Delete EnergyTotal list
+# DELVAR EnergyTotal # Yasara does not create new lists otherwise
   SHOWMESSAGE after pruning for energy (TotalNumberOfObjects) left of (MacroTarget)
   RENUMBEROBJ all
   SAVESCE EA_library/(MacroTarget)/(MacroTarget)_pruned(PruneScaled)TenthAngstrom_And(MaxEaboveMin)kJ(TotalNumberOfObjects)RotamersLeftAfterPruningForRMSDandForEnergy  
