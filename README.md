@@ -1,5 +1,6 @@
 # Predict the *ee*% of the asymmetric synthesis of amines from ketones catalyzed by *Vf*-TA
 This is a computational protocol to predict the enantioselectivity (*ee*%) of ω-transaminases using a combination of molecular docking and molecular dynamics simulations. The protocol has been tested in the ω-transaminase from *Vibrio fluvialis* (*Vf*-TA).
+![ee_reaction](imgs/ee_reaction.png)
 
 ## Requirements
 *	[YASARA](http://yasara.org/) (tested with version 18.11.10)
